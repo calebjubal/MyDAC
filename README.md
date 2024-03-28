@@ -1,2 +1,2 @@
 # MyDAC
-MERN+Next App
+A MERN App
