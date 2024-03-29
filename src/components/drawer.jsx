@@ -10,31 +10,39 @@ const Drawer = () => {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center hidden md:block">
         <button onClick={toggleDrawer} className="focus:outline-none">
           <RiMenu3Fill
             size={32}
-            color="green"
-            className="my-icon hover:cursor-pointer"
+            color=""
+            className="my-icon hover:cursor-pointer text-green-500 hover:scale-105 hover:text-green-700 transition duration-300 ease-in-out"
           />
         </button>
       </div>
 
       <div
-        className={`fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform ${
-          isDrawerOpen ? "translate-x-0" : "translate-x-full"
-        } bg-gray-100 w-96`}
+        className={`fixed top-0 right-0 z-40 h-screen p-6 overflow-y-auto bg-gray-100 w-96 transform transition-transform duration-500 ${
+          isDrawerOpen ? "translate-x-0" : "translate-x-full scale-80 opacity-80"
+        }`}
       >
         <div className="drawer-content">
           {/* Drawer content */}
-          <h5 className="text-base font-semibold text-gray-300">Info</h5>
+          <h1 className="mb-4 mt-10 font-medium leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl ">
+            Get back to health with{" "}
+            <span className="text-green-600 ">Blaze #1</span>
+          </h1>
+          <p className="text-lg font-normal text-gray-500 lg:text-base text-justify ">
+            Here at DAC, we focus on markets where technology, innovation, and
+            capital can unlock long-term value and drive economic growth.
+          </p>
+
           <button
             type="button"
             onClick={toggleDrawer}
-            className="text-gray-900 bg-transparent hover:bg-gray-200  rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center"
+            className="text-gray-500 bg-transparent hover:scale-90 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center"
           >
             <svg
-              className="w-3 h-3"
+              className="w-4 h-4"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -50,28 +58,6 @@ const Drawer = () => {
             </svg>
             <span className="sr-only">Close menu</span>
           </button>
-          <p className="mb-6 text-sm text-gray-500">
-            Supercharge your hiring by taking advantage of our{" "}
-            <a href="#" className="text-blue-600 underline hover:no-underline">
-              limited-time sale
-            </a>{" "}
-            for Flowbite Docs + Job Board. Unlimited access to over 190K
-            top-ranked candidates and the #1 design job board.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <a
-              href="#"
-              className="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-            >
-              Learn more
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none"
-            >
-              Get access{" "}
-            </a>
-          </div>
         </div>
       </div>
     </>
