@@ -110,25 +110,25 @@ const HomePage = () => {
     ref={sideImgRefs[0]}
     src={leaf}
     alt=""
-    className="w-36 absolute h-36 rotate-45 left-20 top-10"
+    className="w-44 absolute h-44 rotate-45 left-20 top-10"
   />
   <img
     ref={sideImgRefs[1]}
     src={leaf}
     alt=""
-    className="w-36 absolute h-36 -rotate-45 right-14 bottom-20"
+    className="w-44 absolute h-44 -rotate-45 right-14 bottom-20"
   />
   <img
     ref={sideImgRefs[2]}
     src={leaf}
     alt=""
-    className="w-36 absolute h-36 -rotate-12 left-20 bottom-60"
+    className="w-44 absolute h-44 -rotate-12 left-20 bottom-60"
   />
   <img
     ref={sideImgRefs[3]}
     src={leaf}
     alt=""
-    className="w-36 absolute h-36 -rotate-12 right-14 top-40"
+    className="w-44 absolute h-44 -rotate-12 right-14 top-40"
   />
   <p className="text-sm font-bold lowercase text-gold-100 lg:text-xl">
     #Harmonize Your Being
