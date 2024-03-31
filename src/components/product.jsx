@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
 import pr1_img from "../assets/ingredients_img.png"
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Product = () => {
   return (
