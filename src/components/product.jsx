@@ -1,66 +1,94 @@
-import { Link } from "react-router-dom";
-import pr1_img from "../assets/ingredients_img.png"
+import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import product1 from "../assets/p1.png";
 
-gsap.registerPlugin(ScrollTrigger);
+const products = [
+  {
+    title: "MuscleMax Ayurvedic Whey Mass",
+    description:
+      "Introducing MuscleMax Ayurvedic Whey Mass, a natural blend formulated with the goodness of Ayurveda. Crafted to provide a holistic approach to muscle building, this supplement combines traditional Ayurvedic herbs with high-quality whey protein. Boost your workouts and support muscle",
+    price: "$49.99",
+  },
+  {
+    title: "StrengthBlend Ayurvedic Whey Mass",
+    description:
+      "Discover the power of StrengthBlend Ayurvedic Whey Mass, a premium supplement designed to enhance your fitness journey. Enriched with the essence of Ayurveda, this unique blend harnesses the benefits of traditional herbs and pure whey protein. Elevate your workouts and promote muscle recovery",
+    price: "$59.99",
+  },
+  {
+    title: "VitalPro Ayurvedic Whey Mass",
+    description:
+      "Experience the fusion of tradition and modernity with VitalPro Ayurvedic Whey Mass. Carefully crafted using ancient Ayurvedic principles and advanced nutritional science, this supplement is your companion in achieving peak fitness. Fuel your workouts and optimize muscle growth",
+    price: "$69.99",
+  },
+  
+];
 
 const Product = () => {
-    const sectionRef = useRef(null);
-  
-    useEffect(() => {
-      const section = sectionRef.current;
-  
-      if (section) {
-          gsap.fromTo(
-            section,
-            { 
-              opacity: 1, 
-            },
-          {
-            opacity: 1, // Final opacity
-            backgroundColor:'#0D9B4D',
-            color:'gray',
-            duration:1,
-            scrollTrigger: {
-              trigger: section,
-              start: "top center+=120",
-              end: "top center-=200",
-              scrub: 3,
-  
-            }
-          }
-        );
-      }
-    }, []);
-  
-    return (
-    <section ref={sectionRef} className="body-font text-white -mt-8 justify-center items-center">
-        <div className="lg:flex-grow lg:pr-56 md:pr-16 flex flex-col md:items-start md:text-left mb-16 container px-5 py-20 mx-auto">
-            <Link to="#" className="flex flex-col items-center shadow md:flex-row rounded-lg md:max-w-xl text-black hover:bg-black hover:text-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-[130px]">
-                <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={ pr1_img } alt="" />
-                <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight dark:text-white">SERIOUR MASS</h5>
-                    <p className="mb-3 font-normal dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-            </Link>
-            <Link to="#" className="flex flex-col items-center shadow md:flex-row rounded md:max-w-xl text-black hover:bg-black hover:text-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-[130px]">
-                <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight dark:text-white">PROTEIN WHEY</h5>
-                    <p className="mb-3 font-normal dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-                <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={pr1_img} alt="" />
-            </Link>
-            <Link to="#" className="flex flex-col items-center shadow md:flex-row rounded-lg md:max-w-xl text-black hover:bg-black hover:text-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-[130px]">
-                <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={pr1_img} alt="" />
-                <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight dark:text-white">MAX MASS 3XL</h5>
-                    <p className="mb-3 font-normal dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-            </Link>
-        </div>
+  useEffect(() => {
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    products.forEach((_, index) => {
+      gsap.to(`#product-img-${index}`, {
+        opacity: 1,
+        scrollTrigger: {
+          trigger: `#product-img-${index}`,
+          start: "top bottom-=100",
+          end: "bottom center",
+          scrub: 3,
+        },
+      });
+    });
+  }, []);
+
+  return (
+    <>
+      <section className="text-black-100 body-font mt-10">
+        
+<h1 class="mb-8 mt-4 text-4xl font-extrabold leading-none text-center tracking-tight text-black-100 md:text-5xl lg:text-6xl ">We think for the <span class="underline underline-offset-3 decoration-8 decoration-darkGreen">buyer’s potential</span></h1>
+
+
+        {products.map((product, index) => (
+          <div
+            key={index}
+            className={`container px-5 mx-auto flex flex-row items-center ${
+              index % 2 === 0 ? "flex-row-reverse" : ""
+            }`}
+          >
+            <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 mt-4 ">
+              <h1 className="title-font font-medium text-3xl text-gray-700">
+                {product.title}
+              </h1>
+              <p className="leading-relaxed text-justify mt-4">
+                {product.description}
+              </p>
+              <div className="flex items-center gap-6 mt-3">
+                <p className="text-2xl font-semibold text-black-100">
+                  {product.price}
+                </p>
+                <button
+                  type="button"
+                  className="text-white border-2 border-white bg-gold-100 hover:bg-darkGreen focus:outline-none font-medium rounded-full text-sm px-4 h-10  py-2 text-center transition duration-300 ease-in-out"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+            <div className="lg:w-2/5 md:w-1/2 rounded-lg p-8 flex flex-col md:ml-auto mt-4 md:mt-0 items-center">
+              <img
+                id={`product-img-${index}`}
+                src={product1}
+                alt=""
+                className="w-1/2 h-auto mb-4 rounded-lg object-fit opacity-0"
+              />
+            </div>
+          </div>
+        ))}
       </section>
-    );
-  };
-  
-export default Product
+    </>
+  );
+};
+
+export default Product;
