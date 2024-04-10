@@ -67,7 +67,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/about"
+                to="/product"
                 className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
               >
                 Product
@@ -75,7 +75,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/services"
+                to="/shop"
                 className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
               >
                 Shop
@@ -83,7 +83,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/services"
+                to="/blog"
                 className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
               >
                 Blog
