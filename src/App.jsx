@@ -12,7 +12,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog" element={<BlogPage blogs={data?data:""} />} />
     </Routes>
   );
 };
