@@ -1,36 +1,41 @@
-import React from "react";
-import Drawer from "./drawer";
-import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
-import { RiShoppingCartLine } from "@remixicon/react";
-import { RiSearch2Line } from "@remixicon/react";
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Drawer from './drawer';
+import logo from '../assets/logo.png';
+import { RiSearch2Line } from '@remixicon/react';
 
 const Navbar = () => {
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false); 
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
     <nav className="bg-white mt-6 sticky top-0 z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center rtl:space-x-reverse">
-          <img src={logo} class="h-12" alt="Logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <img src={logo} className="h-12" alt="Logo" />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            Your Brand
           </span>
         </Link>
+
         <div className="flex md:order-2 space-x-10 rtl:space-x-reverse">
-          <RiShoppingCartLine
-            size={32}
-            color="gray"
-            className="my-icon hover:cursor-pointer hover:scale-90  transition duration-300 ease-in-out"
-          />
           <RiSearch2Line
             size={32}
             color="gray"
-            className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out" // add custom class name
+            className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
           />
+          <Drawer />
           <button
-            data-collapse-toggle="navbar-cta"
-            type="button"
+            onClick={toggleMenu}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            aria-controls="navbar-cta"
-            aria-expanded="false"
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -49,54 +54,18 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          <Drawer />
         </div>
         <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
+            menuOpen ? 'block' : 'hidden'
+          }`}
           id="navbar-cta"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
-            <li>
-              <Link
-                to="/"
-                className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:text-gold-100 transition duration-300 ease-in-out"
-                aria-current="page"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/product"
-                className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
-              >
-                Product
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/shop"
-                className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
-              >
-                Shop
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/blog"
-                className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
-              >
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="block py-2 px-3 md:p-0 text-gray-600 rounded transition duration-300 ease-in-out hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gold-100"
-              >
-                Contact
-              </Link>
-            </li>
+          <ul className="flex flex-col md:flex-row md:space-x-8 md:border-0 font-semibold md:bg-white">
+            <NavItem to="/" text="Home" isActive={isActive} />
+            <NavItem to="/shop" text="Shop" isActive={isActive} />
+            <NavItem to="/blog" text="Blog" isActive={isActive} />
+            <NavItem to="/contact" text="Contact" isActive={isActive} />
           </ul>
         </div>
       </div>
@@ -104,6 +73,20 @@ const Navbar = () => {
   );
 };
 
-
+const NavItem = ({ to, text, isActive }) => {
+  return (
+    <li>
+      <Link
+        to={to}
+        className={`block py-2 px-3 md:p-0 rounded transition duration-300 ease-in-out ${
+          isActive(to) ? 'text-gold-100' : 'text-gray-600'
+        }`}
+        aria-current={isActive(to) ? 'page' : undefined}
+      >
+        {text}
+      </Link>
+    </li>
+  );
+};
 
 export default Navbar;
