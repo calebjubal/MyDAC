@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Drawer from './drawer';
 import logo from '../assets/logo.png';
-import { RiSearch2Line } from '@remixicon/react';
+import { RiAccountCircleLine } from '@remixicon/react';
 
 const Navbar = () => {
   const location = useLocation();
@@ -27,12 +27,12 @@ const Navbar = () => {
         </Link>
 
         <div className="flex md:order-2 space-x-10 rtl:space-x-reverse">
-          <RiSearch2Line
-            size={32}
+          <Drawer />
+          <RiAccountCircleLine
+            size={34}
             color="gray"
             className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
           />
-          <Drawer />
           <button
             onClick={toggleMenu}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
