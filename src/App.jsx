@@ -4,8 +4,10 @@ import HomePage from "./pages/homepage";
 import BlogPage from "./pages/blogpage";
 import BlogPost from "./pages/blogpost";
 import ShopPage from "./pages/shoppage";
+import ShopDetail from "./pages/shopdetail";
 import useFetch from "./hooks/useFetch";
 import NotFoundPage from "./pages/404";
+import Loader from "./components/loader";
 
 const App = () => {
   const { loading: blogLoading, data: blogData, error: blogError } = useFetch(
@@ -16,7 +18,7 @@ const App = () => {
   );
 
 
-  if (blogLoading || shopLoading) return <p>Loading...</p>;
+  if (blogLoading || shopLoading) return <Loader/>;
   if (blogError || shopError) return <NotFoundPage />;
 
   return (
@@ -25,6 +27,7 @@ const App = () => {
       <Route path="/blog" element={<BlogPage blogs={blogData ? blogData : []} />} />
       <Route path="/blog/:id" element={<BlogPost blogs={blogData ? blogData : []} />} />
       <Route path="/shop" element={<ShopPage shops={shopData ? shopData : []} />} />
+      <Route path="/shop/:id" element={<ShopDetail shops={shopData ? shopData : []} />} />
     </Routes>
   );
 };
