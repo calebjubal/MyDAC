@@ -13,6 +13,8 @@ return(
     <Navbar/>
     <Section/>
     <Abtftr/>
+    <Abouthero/>
+        
     
     </>
 );
