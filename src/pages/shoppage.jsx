@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import PriceFilter from "../components/pricefilter";
 import Footer from "../components/footer";
@@ -6,13 +6,17 @@ import { RiStarFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import CategoryFilter from "../components/categoryfilter";
 import { RiArrowRightDoubleLine, RiArrowLeftDoubleLine } from "@remixicon/react";
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartReducer";
 
 const ShopPage = ({ shops }) => {
   const [filteredShops, setFilteredShops] = useState(shops.data);
   const [sortBy, setSortBy] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [shopsPerPage] = useState(6);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     setFilteredShops(shops.data);
@@ -30,7 +34,26 @@ const ShopPage = ({ shops }) => {
         shop.attributes.productPrice >= min &&
         shop.attributes.productPrice <= max
     );
-    setFilteredShops(filtered);
+    if (selectedCategory) {
+      const categoryFiltered = filtered.filter(shop =>
+        shop.attributes.productCategory.toLowerCase().includes(selectedCategory)
+      );
+      setFilteredShops(categoryFiltered);
+    } else {
+      setFilteredShops(filtered);
+    }
+  };
+
+  const handleCategoryFilter = (category) => {
+    setSelectedCategory(category.toLowerCase());
+    const filtered = shops.data.filter(shop =>
+      shop.attributes.productCategory.toLowerCase().includes(category.toLowerCase())
+    );
+    if (sortBy !== "") {
+      handleSortChange({ target: { value: sortBy } });
+    } else {
+      setFilteredShops(filtered);
+    }
   };
 
   const handleSortChange = (e) => {
@@ -57,13 +80,31 @@ const ShopPage = ({ shops }) => {
     setCurrentPage(currentPage - 1);
   };
 
+  // Handle search input change
+  const handleSearch = (value) => {
+    setSearchInput(value);
+    const filtered = shops.data.filter(shop =>
+      shop.attributes.productName.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredShops(filtered);
+  };
+
+  const dispatch = useDispatch()
+
   return (
     <>
       <Navbar />
+      <div className="coverImg flex flex-col justify-center items-center h-[500px] w-full bg-cover">
+        <h1 className="text-6xl m-2 uppercase font-semibold text-white">Our <span className="text-gray-700">Shop</span></h1>
+        <h1 className="text-3xl uppercase font-light text-gray-700">Explore Our Collection</h1>
+      </div>
       <div className="w-full section flex flex-col md:flex-row-reverse relative p-8 gap-4 py-10 items-start">
-        
-        <div className="left-panel bg-gray-50  mt-10 md:w-1/3 w-full justify-center  flex p-8 items-center md:block sticky top-28 left-0">
-          <CategoryFilter/>
+        <div className="left-panel bg-gray-50 mt-10 md:w-1/3 w-full justify-center  flex p-8 items-center md:block sticky top-28 left-0">
+          <h1 className="text-2xl uppercase text-center mb-2">Build <span className="text-gold-100 font-semibold">yourself strong </span>with us</h1>
+          <h1 className="text-3xl uppercase text-center mb-2">Get All <span className="text-darkGreen font-semibold">As Per Need</span></h1>
+
+          <CategoryFilter handleFilter={handleCategoryFilter} handleSearch={handleSearch} />
+
           <PriceFilter handleFilter={handlePriceFilter} />
         </div>
         <div className="right-panel md:w-4/5 w-full p-8">
@@ -88,14 +129,14 @@ const ShopPage = ({ shops }) => {
                 >
                   <Link to={`/shop/${shop.id}`}>
                     <img
-                      className="p-4 rounded-t-lg mx-auto hover:scale-[1.025] transition-all aspect-w-16 aspect-h-9 duration-300 object-cover object-center"
+                      className="p-4 rounded-t-lg mx-auto hover:scale-[1.1] transition-all aspect-w-16 aspect-h-9 duration-300 object-cover object-center"
                       src={`http://localhost:1337${shop.attributes.productImage.data.attributes.url}`}
                       alt={shop.attributes.productName}
                     />
                   </Link>
                   <div className="flex flex-col gap-2 justify-around p-4">
-                    <span className="text-md font-semibold text-gray-700">
-                      Category
+                    <span className="text-sm font-semibold  uppercase text-gray-500">
+                      {shop.attributes.productCategory}
                     </span>
                     <Link to={`/shop/${shop.id}`}>
                       <h5 className="text-xl uppercase font-semibold tracking-tight text-black hover:text-gold-100 transition-colors duration-300">
@@ -119,7 +160,17 @@ const ShopPage = ({ shops }) => {
                         ))}
                       </div>
                     </div>
-                    <button className="CartBtn mt-2 ">
+                    <button onClick={() => setQuantity((prev) => prev === 1 ? 1 : prev - 1)}>-</button>
+                    {quantity}
+                    <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
+                    <button className="CartBtn mt-2 " onClick={() => dispatch(addToCart({
+                      id: shop.id,
+                      name: shop.attributes.productName,
+                      price: shop.attributes.productPrice,
+                      img: shop.attributes.productImage.data.attributes.url,
+                      desc: shop.attributes.productDescription,
+                      quantity: quantity
+                    }))}>
                       <span className="IconContainer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -138,18 +189,18 @@ const ShopPage = ({ shops }) => {
                 </div>
               ))
             ) : (
-              <p>No shops found.</p>
+              <p className="text-center text-3xl">Nothing Seems Here :/</p>
             )}
           </div>
           <ul className="pagination flex justify-start gap-4 mt-10">
             <li className={`page-item ${currentPage === 1 ? '' : ''}`}>
               <button onClick={prevPage} className="page-link text-xl w-10 h-10 justify-center flex items-center border-2">
-              <RiArrowLeftDoubleLine
-            size={24}
-            color="black"
-            className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
-            alt="page"
-          />
+                <RiArrowLeftDoubleLine
+                  size={24}
+                  color="black"
+                  className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
+                  alt="page"
+                />
               </button>
             </li>
             {Array.from({ length: Math.ceil(filteredShops.length / shopsPerPage) }).map((_, index) => (
@@ -161,12 +212,12 @@ const ShopPage = ({ shops }) => {
             ))}
             <li className={`page-item ${currentPage === Math.ceil(filteredShops.length / shopsPerPage) ? '' : ''}`}>
               <button onClick={nextPage} className="page-link text-xl w-10 h-10 justify-center flex items-center border-2">
-              <RiArrowRightDoubleLine
-            size={24}
-            color="black"
-            className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
-            alt="page"
-          />
+                <RiArrowRightDoubleLine
+                  size={24}
+                  color="black"
+                  className="my-icon hover:cursor-pointer hover:scale-90 transition duration-300 ease-in-out"
+                  alt="page"
+                />
               </button>
             </li>
           </ul>
